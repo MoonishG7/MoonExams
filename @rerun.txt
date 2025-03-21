@@ -1,3 +1,4 @@
 src\test\features\LoginAsEmployee.feature:3
 src\test\features\LoginAsHr.feature:3
 src\test\features\LoginAsManager.feature:3
+src\test\features\UpdatePersonalInformationCertification.feature:3
