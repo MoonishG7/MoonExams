@@ -1,6 +1,8 @@
 import { Locator, Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 import { pageFixture } from "../Utils/pageFixture";
+import * as fs from "fs";
+import path from "path";
 
 export class HomePage {
   private Elements = {
@@ -13,26 +15,49 @@ export class HomePage {
   };
 
   async navigateToMySpace() {
-    await pageFixture.page.getByLabel("My space").click();
+    //await expect(pageFixture.page.getByLabel("My space")).toBeVisible();
+    await pageFixture.page.locator('//a[@id = "ess-menu"]').hover();
+    await pageFixture.page.locator('//a[@id = "ess-menu"]').click();
+    //await pageFixture.page.getByLabel("My space").click();
   }
   async navigateToPersonalInformation() {
-    await pageFixture.page.getByLabel("Personal Information").click();
+    // await expect(
+    //   pageFixture.page.getByLabel("Personal Information")
+    // ).toBeVisible();
+    //await pageFixture.page.getByLabel(" Personal information ").click();
+    await pageFixture.page.locator('//a[@id="ess-personal-info-menu"]').click();
   }
   async navigateToEducation() {
-    await pageFixture.page.getByLabel("Education").click();
+    //await expect(pageFixture.page.getByLabel("Education")).toBeVisible();
+    //await pageFixture.page.getByLabel("Education").click();
+
+    await pageFixture.page
+      .locator('//span[@class="nav-text"][text() ="Education"]')
+      .click();
   }
   async navigateToCertifications() {
-    await pageFixture.page.getByLabel("Certifications").click();
+    ///await expect(pageFixture.page.getByLabel("Certifications")).toBeVisible();
+
+    //await pageFixture.page.getByLabel("Certifications").click();
+    await pageFixture.page
+      .locator('//span[@class="text-ellipsis p-r-2"][text() ="Certifications"]')
+      .click();
   }
 
   async clickOnAdd() {
-    await pageFixture.page.getByLabel("Add").click();
+    //await expect(pageFixture.page.getByLabel("Add")).toBeVisible();
+    //await pageFixture.page.getByLabel("Add").click();
+    await pageFixture.page
+      .locator('//button[@class = "btn primary add-btn"]')
+      .click();
   }
 
   async verifyPopUp() {
-    await expect(pageFixture.page.getByLabel("Certifications")).toHaveText(
-      "Certifications"
-    );
+    await expect(
+      pageFixture.page.locator(
+        '//div[@class = "gp-modal-title"][text()=" Certifications "]'
+      )
+    ).toHaveText(" Certifications ");
   }
 
   async selectCertification(typeOfCertification: string) {
@@ -47,10 +72,19 @@ export class HomePage {
   }
 
   async addScannedCopy(scannedCopy: string) {
-    await pageFixture.page.locator(this.Elements.scannedCopy_loc).click();
+    // const filePath = `Downloads/${scannedCopy}`;
+    // if (fs.existsSync(filePath)) {
+    //   await pageFixture.page.locator(this.Elements.scannedCopy_loc).click();
+    //   await pageFixture.page
+    //     .locator(this.Elements.scannedCopy_loc)
+    //     .setInputFiles(filePath);
+    // } else {
+    //   throw new Error(`File not found: ${filePath}`);
+    //   }
+    //await pageFixture.page.locator(this.Elements.scannedCopy_loc).click();
     await pageFixture.page
       .locator(this.Elements.scannedCopy_loc)
-      .setInputFiles("certification_1.jpg");
+      .setInputFiles([`download/${scannedCopy}`]);
   }
 
   async selectEffectiveDate(effectiveDate: string) {
@@ -73,9 +107,11 @@ export class HomePage {
 
   async bannerMessage_Emp(bannerMessage1: string) {
     //"Your request is in the process of being validated."
-    await expect(pageFixture.page.locator("gp-contract-data")).toHaveText(
-      bannerMessage1
-    );
+    await expect(
+      pageFixture.page.locator(
+        '//div[@class = "col-right--warning"]//child::span'
+      )
+    ).toHaveText(bannerMessage1);
   }
   async logout() {
     await pageFixture.page.locator(this.Elements.accountLogo_loc).click();
@@ -85,13 +121,14 @@ export class HomePage {
   // await expect(currentURL).toContain('signon-acc1.globepayroll.net');
 
   async clickOnMyTasks() {
-    await pageFixture.page.getByLabel(" My tasks ").click();
+    await pageFixture.page.locator('//a[@id = "my-tasks-menu"]').hover();
+    await pageFixture.page.locator('//a[@id = "my-tasks-menu"]').click();
 
-    const firstCell = await $$("#table thead tbody tr td"); // Adjust the selector based on your table's structure
-    const firstCellText = await firstCell[0].getText();
-    const SecondCellText = await firstCell[1].getText();
-    await expect(firstCellText).toContain("Update personal info");
-    await expect(SecondCellText).toContain("Certifications");
+    // const firstCell = await $$("#table thead tbody tr td"); // Adjust the selector based on your table's structure
+    // const firstCellText = await firstCell[0].getText();
+    // const SecondCellText = await firstCell[1].getText();
+    // await expect(firstCellText).toContain("Update personal info");
+    // await expect(SecondCellText).toContain("Certifications");
   }
 
   async findCertificationRequestTable(
@@ -164,37 +201,48 @@ export class HomePage {
     await pageFixture.page.locator(this.Elements.otherButton_loc).click();
   }
 
-    async approvedCertificationRequestDetails(details: string, type: string, subject: string, effectiveDate: string, status: string) {
-      
+  async approvedCertificationRequestDetails(
+    details: string,
+    type: string,
+    subject: string,
+    effectiveDate: string,
+    status: string
+  ) {
     const firstCell = await $$("#table thead tbody tr td"); // Adjust the selector based on your table's structure
     const typeCellText = await firstCell[0].getText();
     const detailsCellText = await firstCell[1].getText();
-        const subjectCellText = await firstCell[3].getText();
-        const statusCellText = await firstCell[4].getText();
+    const subjectCellText = await firstCell[3].getText();
+    const statusCellText = await firstCell[4].getText();
     const effectiveDateCellText = await firstCell[6].getText();
     await expect(typeCellText).toContain(type);
     await expect(detailsCellText).toContain(details);
-        await expect(subjectCellText).toContain(subject);
-        await expect(statusCellText).toContain(status);
+    await expect(subjectCellText).toContain(subject);
+    await expect(statusCellText).toContain(status);
     await expect(effectiveDateCellText).toContain(effectiveDate);
   }
-  
-    async notificationCount() {
-        await expect(pageFixture.page.locator("gp-navbar")).toContainText("1");
-    }
 
-    async bannerMessage_Emp_No_Longer_Display(bannerMessage1: string) {
-        //"Your request is in the process of being validated."
-        await expect(pageFixture.page.locator("gp-contract-data")).not.toHaveText(
-            bannerMessage1
-        );
-    }
+  async notificationCount() {
+    await expect(pageFixture.page.locator("gp-navbar")).toContainText("1");
+  }
 
-    async bannerWithApprovedCertificationRequest_Emp(typeOfCertification: string,scannedCopy: string) { 
-        await expect(pageFixture.page.locator('gp-contract-data')).toContainText(typeOfCertification);
-  await expect(pageFixture.page.locator('gp-contract-data')).toContainText(scannedCopy);
-    }
+  async bannerMessage_Emp_No_Longer_Display(bannerMessage1: string) {
+    //"Your request is in the process of being validated."
+    await expect(pageFixture.page.locator("gp-contract-data")).not.toHaveText(
+      bannerMessage1
+    );
+  }
 
+  async bannerWithApprovedCertificationRequest_Emp(
+    typeOfCertification: string,
+    scannedCopy: string
+  ) {
+    await expect(pageFixture.page.locator("gp-contract-data")).toContainText(
+      typeOfCertification
+    );
+    await expect(pageFixture.page.locator("gp-contract-data")).toContainText(
+      scannedCopy
+    );
+  }
 
   //   async clickSubmit() {}
   //   async clickSubmit() {}

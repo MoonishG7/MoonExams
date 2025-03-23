@@ -3,7 +3,7 @@ Feature: Update Personal Information
     Scenario Outline: Update Personal Information Successfully
 
         Given the user in on the Login Page
-        When the user fills in the email 'moonemp@yopmail.com' and password 'autoss#12'
+        When the user fills in the employee email '<empEmail>' and password '<password>'
         Then the user should be redirected to the homepage
 
         When the user clicks on My Space
@@ -23,7 +23,7 @@ Feature: Update Personal Information
         When the user clicks on Account logo and select Sign out
         Then the user should be redirected to the Login Page
 
-        When the user fills in the email 'moonman@yopmail.com' and password 'autoss#12'
+        When the user fills in the manager email '<managerEmail>' and password '<password>'
         Then the user should be redirected to the homepage
 
         When the user clicks on My tasks
@@ -38,7 +38,7 @@ Feature: Update Personal Information
         When the user clicks on Account logo and select Sign out
         Then the user should be redirected to the Login Page
 
-        When the user fills in the email 'moonhr@yopmail.com' and password 'autoss#12'
+        When the user fills in the hr email '<hrEmail>' and password '<password>'
         Then the user should be redirected to the homepage
 
         When the user clicks on My tasks and clicks on OTHER
@@ -47,7 +47,7 @@ Feature: Update Personal Information
         When the user clicks on Account logo and select Sign out
         Then the user should be redirected to the Login Page
 
-        When the user fills in the email 'moonemp@yopmail.com' and password 'autoss#12'
+        When the user fills in the email '<empEmail>' and password '<password>'
         Then the user should be redirected to the homepage
         And notification has a count
 
@@ -63,9 +63,9 @@ Feature: Update Personal Information
 
 
 
-        Examples: Example name
-            | typeOfCertification               | scannedCopy         | effectiveDate | toastMessage1              | bannerMessage1                                     | details        | type                 | subject      | creationDate | toastMessage2                        | status    |
-            | Certification 1 (Driving licence) | certification_1.jpg | 2025-03-23    | Your request was recorded. | Your request is in the process of being validated. | Certifications | Update personal info | MoonTest Emp | 01/01/2021   | You successfully completed the task. | VALIDATED |
+        Examples:
+            | typeOfCertification               | scannedCopy         | effectiveDate | toastMessage1              | bannerMessage1                                     | details        | type                 | subject      | creationDate | toastMessage2                        | status    | empEmail            | password  | managerEmail        | hrEmail            |
+            | Certification 1 (Driving licence) | certification_1.jpg | 2025-03-23    | Your request was recorded. | Your request is in the process of being validated. | Certifications | Update personal info | MoonTest Emp | 01/01/2021   | You successfully completed the task. | VALIDATED | moonemp@yopmail.com | autoss#12 | moonman@yopmail.com | moonhr@yopmail.com |
 
 
 
