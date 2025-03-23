@@ -27,7 +27,7 @@ Feature: Update Personal Information
         Then the user should be redirected to the homepage
 
         When the user clicks on My tasks
-        Then the user should find the certification request with same '<details>' and '<requester>' and '<subject>' and '<creationDate>'
+        Then the user should find the certification request with same '<details>' and '<type>' and '<subject>' and '<effectiveDate>'
 
         When the user clicks on the certification request
         Then the user should find the certification details with same '<typeOfCertification>' and '<scannedCopy>' and '<effectiveDate>'
@@ -42,7 +42,7 @@ Feature: Update Personal Information
         Then the user should be redirected to the homepage
 
         When the user clicks on My tasks and clicks on OTHER
-        Then the approved certification request should be displayed with '<details>' and '<requester>' and '<subject>' and '<creationDate>' and '<status>'
+        Then the approved certification request should be displayed with '<details>' and '<type>' and '<subject>' and '<effectiveDate>' and '<status>'
 
         When the user clicks on Account logo and select Sign out
         Then the user should be redirected to the Login Page
@@ -50,7 +50,7 @@ Feature: Update Personal Information
         When the user fills in the email 'moonemp@yopmail.com' and password 'autoss#12'
         Then the user should be redirected to the homepage
         And notification has a count
-        
+
         When the user clicks on My Space
         And the user clicks on Personal Information
         And the user clicks on Education
@@ -63,8 +63,10 @@ Feature: Update Personal Information
 
 
 
+        Examples: Example name
+            | typeOfCertification               | scannedCopy         | effectiveDate | toastMessage1              | bannerMessage1                                     | details        | type                 | subject      | creationDate | toastMessage2                        | status    |
+            | Certification 1 (Driving licence) | certification_1.jpg | 2025-03-23    | Your request was recorded. | Your request is in the process of being validated. | Certifications | Update personal info | MoonTest Emp | 01/01/2021   | You successfully completed the task. | VALIDATED |
 
-        
 
 
 

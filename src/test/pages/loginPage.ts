@@ -3,7 +3,7 @@ import { pageFixture } from "../Utils/pageFixture";
 
 export class LoginPage {
   private Elements = {
-    email_loc: '//input[@id = "username"]]',
+    email_loc: '//input[@id = "username"]',
     password_loc: '//input[@id = "password"]',
   };
 
