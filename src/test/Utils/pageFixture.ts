@@ -6,3 +6,5 @@ export const pageFixture = {
   //@ts-ignore
   page: undefined as Page,
 };
+
+// pageFixture.page.setDefaultTimeout(30000);
